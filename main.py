@@ -7,3 +7,8 @@ import cv2
 import mediapipe as mp
 import time 
 
+from audiomanager.py import AudioManager
+
+
+class GestureRecognitionApp:
+    """Aplicacion principal de reconocimientos de gestos"""
