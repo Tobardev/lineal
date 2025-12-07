@@ -26,3 +26,21 @@ class AudioManager:
             print(f"✗ pygame no está disponible: {e}")
             print("  Para habilitar sonido: pip install pygame")
             self.disponible = False
+            
+    def _cargar_sonidos(self):
+        """Carga los archivos de audio para cada vocal"""
+        if not self.disponible:
+            return
+        
+        archivos = AUDIO_CONFIG['archivos']
+        
+        for vocal, archivo in archivos.items():
+            try:
+                self.sonidos[vocal] = pygame.mixer.Sound(archivo)
+                print(f"✓ Sonido '{vocal}' cargado: {archivo}")
+            except Exception as e:
+                print(f"✗ Error cargando sonido '{vocal}' ({archivo}): {e}")
+        
+        if not self.sonidos:
+            print("✗ No se pudo cargar ningún sonido")
+            self.disponible = False
