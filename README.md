@@ -198,4 +198,4 @@ Proyecto: [https://github.com/Tobardev/lineal.gitl](https://github.com/Tobardev/
 
 ---
 
-⭐ Si este proyecto te fue útil, considera darle una estrella en GitHub!
+⭐danos una estrella en GitHub!
