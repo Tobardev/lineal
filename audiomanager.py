@@ -14,3 +14,15 @@ class AudioManager:
         self.disponible = False
         self.sonidos = {}
         self._inicializar()
+
+         def _inicializar(self):
+        """Inicializa pygame mixer y carga los sonidos"""
+        try:
+            pygame.mixer.init()
+            self.disponible = True
+            print("✓ pygame inicializado correctamente")
+            self._cargar_sonidos()
+        except Exception as e:
+            print(f"✗ pygame no está disponible: {e}")
+            print("  Para habilitar sonido: pip install pygame")
+            self.disponible = False
