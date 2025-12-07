@@ -10,6 +10,8 @@ Cuando se detecta un gesto válido, el programa reproduce un sonido, dibuja los 
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-0.10+-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+
+
 ## 🎯 Características
 
 - ✅ Detección en tiempo real de 5 vocales: **A, E, I, O, U**
@@ -78,6 +80,13 @@ python main.py
 - **ESC** o **Q**: Salir del programa
 
 ### Gestos soportados
+
+
+
+![License](https://www.liveworksheets.com/sites/default/files/styles/worksheet/public/def_files/2022/2/9/20209133137330215/20209133137330215001.jpg?itok=N2lSlOrK)
+
+
+
 
 | Vocal | Descripción del gesto |
 |-------|----------------------|
