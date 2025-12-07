@@ -193,6 +193,10 @@ Luis Tobar - 2551282 [@Tobar_Dev](https://www.instagram.com/tobar.dev?igsh=dTk5c
 
 Proyecto: [https://github.com/Tobardev/lineal.gitl](https://github.com/Tobardev/lineal.git)
 
+Sebastian cuartas 2551342-2724
+Juan José Córdoba 2551332-2724
+Daniel Espinosa Lozano 2463328-2724
+
 ## 🙏 Agradecimientos
 
 - [MediaPipe](https://mediapipe.dev/) por el modelo de detección de manos
