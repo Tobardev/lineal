@@ -1,0 +1,78 @@
+# ============================
+#   ARCHIVOS PYTHON
+# ============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# ============================
+#   ENTORNOS VIRTUALES
+# ============================
+venv/
+env/
+.venv/
+.env/
+
+# ============================
+#   ARCHIVOS DE CONFIGURACIÓN LOCAL
+# ============================
+*.env
+*.ini
+*.cfg
+*.log
+
+# ============================
+#   ARCHIVOS DEL SISTEMA
+# ============================
+.DS_Store
+Thumbs.db
+
+# ============================
+#   CARPETAS TEMPORALES
+# ============================
+tmp/
+temp/
+*.tmp
+
+# ============================
+#   ARCHIVOS DE EDITORES
+# ============================
+.vscode/
+.idea/
+
+# ============================
+#   MEDIAPIPE / OPENCV / CACHE
+# ============================
+*.pbtxt
+*.pb
+mediapipe/models/
+mediapipe/modules/
+opencv_cache/
+
+# ============================
+#   ARCHIVOS MULTIMEDIA PESADOS
+#   (si usas sonidos o imágenes)
+# ============================
+*.mp3
+*.wav
+*.jpg
+*.jpeg
+*.png
+*.bmp
+
+# Si quieres permitir imágenes específicas, usa negate:
+# !assets/logo.png
+
+# ============================
+#   BUILD / DIST
+# ============================
+build/
+dist/
+*.spec
+
+# ============================
+#   JUPYTER
+# ============================
+.ipynb_checkpoints/
