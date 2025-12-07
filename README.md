@@ -182,7 +182,7 @@ pip install --upgrade pygame
 
 Luis Tobar - 2551282 [@Tobar_Dev](https://www.instagram.com/tobar.dev?igsh=dTk5cWcwb3h4ZTF0)
 
-Proyecto: [https://github.com/tu-usuario/detector-gestos-asl](https://github.com/tu-usuario/detector-gestos-asl)
+Proyecto: [https://github.com/Tobardev/lineal.gitl](https://github.com/Tobardev/lineal.git)
 
 ## 🙏 Agradecimientos
 
