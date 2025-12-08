@@ -154,5 +154,70 @@ class GestureDetector:
         meñique_alto = lm['meñique_tip'].y < lm['medio_tip'].y
         
         return dedos_doblados and meñique_extendido and meñique_alto
+
+    def _es_vocal_o(self, estado, dist, lm):
+        """Detecta vocal O: dedos formando círculo"""
+        # Promedio de distancias entre dedos adyacentes
+        distancias_lista = [dist['pulgar_indice'], dist['indice_medio'], 
+                           dist['medio_anular'], dist['anular_meñique']]
+        promedio = sum(distancias_lista) / len(distancias_lista)
+        
+        todos_cercanos = promedio < self.th['medio']
+        no_todos_doblados = not all(estado[d]['doblado'] 
+                                    for d in ['indice', 'medio', 'anular', 'meñique'])
+        
+        # Verificar altura similar de las puntas
+        alturas = [lm['indice_tip'].y, lm['medio_tip'].y, 
+                  lm['anular_tip'].y, lm['meñique_tip'].y]
+        variacion = variacion_valores(alturas)
+        
+        return todos_cercanos and no_todos_doblados and variacion < self.tol['O']['variacion_altura_max']
     
+    def _es_vocal_u(self, estado, dist, lm):
+        """Detecta vocal U: índice y medio extendidos juntos"""
+        ind_med_extendidos = (not estado['indice']['doblado'] and 
+                             not estado['medio']['doblado'] and
+                             estado['indice']['angulo'] > self.ang['extendido'] and
+                             estado['medio']['angulo'] > self.ang['extendido'])
+        
+        anu_meñ_doblados = estado['anular']['doblado'] and estado['meñique']['doblado']
+        ind_med_juntos = dist['indice_medio'] < self.th['cerca']
+        
+        # Verificar altura similar
+        diferencia_altura = abs(lm['indice_tip'].y - lm['medio_tip'].y)
+        altura_similar = diferencia_altura < self.tol['U']['diferencia_altura_max']
+        
+        return ind_med_extendidos and anu_meñ_doblados and ind_med_juntos and altura_similar
     
+    def confirmar_gesto(self, i_mano, gesto_actual):
+        """
+        Confirma un gesto solo si se detecta de forma estable
+        
+        Args:
+            i_mano: Índice de la mano
+            gesto_actual: Gesto detectado actualmente
+        
+        Returns:
+            str: Gesto confirmado o None
+        """
+        if i_mano not in self.gesto_buffer:
+            self.gesto_buffer[i_mano] = []
+        
+        # Agregar al buffer
+        self.gesto_buffer[i_mano].append(gesto_actual)
+        
+        # Mantener solo los últimos N frames
+        if len(self.gesto_buffer[i_mano]) > self.frames_confirmacion:
+            self.gesto_buffer[i_mano].pop(0)
+        
+        # Confirmar si todos coinciden
+        if len(self.gesto_buffer[i_mano]) == self.frames_confirmacion:
+            if all(g == gesto_actual for g in self.gesto_buffer[i_mano]):
+                return gesto_actual
+        
+        return None
+    
+    def limpiar_buffer(self, i_mano):
+        """Limpia el buffer de confirmación de una mano"""
+        if i_mano in self.gesto_buffer:
+            self.gesto_buffer[i_mano] = []    
