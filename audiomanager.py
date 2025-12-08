@@ -44,3 +44,35 @@ class AudioManager:
         if not self.sonidos:
             print("✗ No se pudo cargar ningún sonido")
             self.disponible = False
+        
+       def reproducir(self, vocal):
+        """
+        Reproduce el sonido de la vocal especificada
+        
+        Args:
+            vocal (str): Letra de la vocal ('A', 'E', 'I', 'O', 'U')
+        """
+        if not self.disponible:
+            return
+        
+        sonido = self.sonidos.get(vocal)
+        if sonido:
+            sonido.stop()  # Detener si ya está reproduciéndose
+            sonido.play()
+        else:
+            print(f"⚠ Sonido para '{vocal}' no disponible")
+    
+    def detener_todos(self):
+        """Detiene todos los sonidos que se estén reproduciendo"""
+        if not self.disponible:
+            return
+        
+        pygame.mixer.stop()
+    
+    def esta_disponible(self):
+        """Retorna si el sistema de audio está disponible"""
+        return self.disponible
+    
+    def obtener_vocales_disponibles(self):
+        """Retorna lista de vocales con sonido disponible"""
+        return list(self.sonidos.keys())
