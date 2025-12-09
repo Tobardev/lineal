@@ -77,6 +77,29 @@ def esta_doblado_simpe(tip, pip):
         bool: True si esta doblado
     """
     return tip.y > pip.y
+def esta_doblado_mejorado(tip, pip, mcp):
+    """
+    Version mejorada que usa 3 puntos para mayor precision
+
+    Args: 
+        tip: Punto de la punta del dedo
+        pip: Punto de la articulacion PIP
+        mcp: Punto de la articulacion MCP (nudillo)
+    
+    Returns:
+        bool: True si esta doblado
+    """
+    # Verificacion por posicion Y
+    doblado_simple = tip.y > pip.y
+
+    # Verificacion por distancia
+    dist_tip_mcp = distancia2(tip, mcp)
+    dist_pip_mcp = distancia2(pip, mcp)
+
+    # Si esta doblado, el tip deberia estar mas cerca del mcp
+    doblado_distancia = dist_tip_mcp < dist_pip_mcp * 0.9
+
+    return doblado_simple and doblado_distancia
 
 
 
