@@ -139,4 +139,16 @@ def promedio_distancias(distancias):
         return 0
     return sum(distancias) / len(distancias)
 
+def variacion_valores(valores):
+    """
+    Calcula la variacion (rango) de una lista de valores
+
+    Args: Valores: Lista de valores numericos
+
+    Returns:
+        float: Diferencia entre maximo y minimo
+    """
+    if not valores:
+        return 0
+    return max(valores) - min(valores)
 
