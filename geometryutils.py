@@ -125,6 +125,18 @@ def calcular_bounding_box(landmarks, w, h):
     cy = int((y_min + y_max) / 2)
 
     return x_min, y_min, x_max, y_max, cx, cy
+def promedio_distancias(distancias):
+    """
+    Calcula el promedio de una lista de distancias
 
+    Args:
+        distancias: Lista de valores de distancia
+    
+    Returns:
+        float: Promedio de las distancias
+    """
+    if not distancias:
+        return 0
+    return sum(distancias) / len(distancias)
 
 
