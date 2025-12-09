@@ -100,6 +100,31 @@ def esta_doblado_mejorado(tip, pip, mcp):
     doblado_distancia = dist_tip_mcp < dist_pip_mcp * 0.9
 
     return doblado_simple and doblado_distancia
+def calcular_bounding_box(landmarks, w, h):
+    """
+    Calcula el bounding box de los landmarks
+
+    Args:
+        landmarks: Lista de landmarks
+        w: Ancho de la imagen
+        h: Alto de la imagen
+    
+    Returns:
+        tuble: (x_min, y_min, x_max, y_max, cx, cy)
+    """
+    xs = [lm.x for lm in landmarks]
+    ys = [lm.y for lm in landmarks]
+
+    x_min = int(min(xs) * w)
+    x_max = int(max(xs) * w)
+    y_min = int(min(ys) * h)
+    y_max = int(max(ys) * h)
+
+    # Centro
+    cx = int((x_min + x_max) / 2)
+    cy = int((y_min + y_max) / 2)
+
+    return x_min, y_min, x_max, y_max, cx, cy
 
 
 
