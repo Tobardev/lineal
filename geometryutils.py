@@ -5,12 +5,6 @@ Autor: Juan Camilo Quiceno - 2363251-2724
 """
 
 import math
-
-
-# ========================================
-# FUNCIONES DE DISTANCIA
-# ========================================
-
 def distancia2(a, b):
     """
     Calcula la distancia Euclidiana 2D entre dos puntos normalizados
@@ -71,5 +65,18 @@ def angulo_entre_puntos(a, b, c):
     # Convertir a grados
     angle = math.acos(cos_angle)
     return math.degress(angle)
+def esta_doblado_simpe(tip, pip):
+    """
+    Heuristica simpe: verifica si un dedo esta doblado comparando cooordenasdas Y
+    
+    Args: 
+        tip: Punto de la punta del dedo
+        pip: Punto de la articulacion PIP
+    
+    Returns:
+        bool: True si esta doblado
+    """
+    return tip.y > pip.y
+
 
 
