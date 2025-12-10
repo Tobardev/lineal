@@ -128,7 +128,17 @@ class GestureRecognitionApp:
             cv2.putText(frame, 'Gesto: -', (x_min, y_max + 25),
                        cv2.FONT_HERSHEY_SIMPLEX, self.tamaños['fuente_detectando'],
                        self.colores['texto_sin_gesto'], self.grosor['texto_normal'])
-    
+ 
+    def _dibujar_fps(self, frame):
+        """Calcula y dibuja FPS"""
+        tiempo_actual = time.time()
+        fps = 1 / (tiempo_actual - self.tiempo_prev) if self.tiempo_prev != 0 else 0
+        self.tiempo_prev = tiempo_actual
+        
+        cv2.putText(frame, f'FPS: {int(fps)}', (10, 30),
+                   cv2.FONT_HERSHEY_SIMPLEX, self.tamaños['fuente_fps'],
+                   self.colores['texto_confirmado'], self.grosor['texto_normal'])
+       
         
 
         
