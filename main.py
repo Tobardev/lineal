@@ -138,7 +138,76 @@ class GestureRecognitionApp:
         cv2.putText(frame, f'FPS: {int(fps)}', (10, 30),
                    cv2.FONT_HERSHEY_SIMPLEX, self.tamaños['fuente_fps'],
                    self.colores['texto_confirmado'], self.grosor['texto_normal'])
-       
+
+    def ejecutar(self):
+        """bucle principal del programa"""
+        
+        print("\n" + "="*60)
+        print("DETECTOR DE GESTOS - VOCALES ASL")
+        print("="*60)
+        print(f"Audio disponible: {'✓ Sí' if self.audio_manager.esta_disponible() else '✗ No'}")
+        if self.audio_manager.esta_disponible():
+            print(f"Vocales cargadas: {', '.join(self.audio_manager.obtener_vocales_disponibles())}")
+        print("\nControles:")
+        print("  ESC o Q - Salir")
+        print("="*60 + "\n")
+        
+        while self.corriendo:
+            ret, frame = self.cap.read()
+            if not ret:
+                print("Error: No se pudo capturar frame")
+                break
+            
+            # Voltear para efecto espejo
+            frame = cv2.flip(frame, 1)
+            h, w, _ = frame.shape
+            
+            # Convertir a RGB
+            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            resultados = self.manos.process(rgb)
+            
+            # Procesar manos detectadas
+            if resultados.multi_hand_landmarks:
+                for i_mano, lm_mano in enumerate(resultados.multi_hand_landmarks):
+                    self.procesar_mano(i_mano, lm_mano, frame, h, w, resultados)
+            
+            # Dibujar FPS
+            self._dibujar_fps(frame)
+            
+            # Mostrar frame
+            cv2.imshow('Detección Mejorada - Vocales ASL', frame)
+            
+            # Manejar teclas
+            tecla = cv2.waitKey(1) & 0xFF
+            if tecla == 27 or tecla == ord('q'):  # ESC o Q
+                self.corriendo = False
+        
+        self.limpiar()
+    
+    def limpiar(self):
+        """Libera recursos"""
+        print("\nCerrando aplicación...")
+        self.cap.release()
+        cv2.destroyAllWindows()
+        self.audio_manager.detener_todos()
+        print("✓ Recursos liberados")
+
+
+def main():
+    """Función principal"""
+    try:
+        app = GestureRecognitionApp()
+        app.ejecutar()
+    except KeyboardInterrupt:
+        print("\n✗ Interrumpido por el usuario")
+    except Exception as e:
+        print(f"\n✗ Error: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+if __name__ == "__main__":
+    main()       
         
 
         
