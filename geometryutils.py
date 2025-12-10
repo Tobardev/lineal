@@ -5,6 +5,8 @@ Autor: Juan Camilo Quiceno - 2363251-2724
 """
 
 import math
+
+
 def distancia2(a, b):
     """
     Calcula la distancia Euclidiana 2D entre dos puntos normalizados
@@ -16,119 +18,135 @@ def distancia2(a, b):
         float: Distancia 2D entre los puntos
     """
     return math.hypot(a.x - b.x, a.y - b.y)
+
+
 def distancia3(a, b):
     """
     Calcula la distancia Euclidiana 3D entre dos landmarks
+    
     Args:
         a, b: Landmarks con atributos .x, .y, .z
+    
     Returns:
-        Float: Distancia 3D entre los puntos
+        float: Distancia 3D entre los puntos
     """
-dx = a.x - b.x
-dy = a.y - b.y
-dz = a.z - b.z
+    dx = a.x - b.x
+    dy = a.y - b.y
+    dz = a.z - b.z
+    return math.sqrt(dx*dx + dy*dy + dz*dz)
 
-return math.sqrt(dx*dx + dy*dy + dz*dz)
 
 def angulo_entre_puntos(a, b, c):
     """
-    Calcula el angulo en el punto b formado por los puntos a-b-c
-    Args: 
+    Calcula el ángulo en el punto b formado por los puntos a-b-c
+    
+    Args:
         a, b, c: Puntos con atributos .x y .y
+    
     Returns:
-        float: Angulo en grados (0-180)
+        float: Ángulo en grados (0-180)
+    
     Ejemplo:
         Para un dedo, a=mcp, b=pip, c=tip
-        Retorna el angulo de flexion del dedo
+        Retorna el ángulo de flexión del dedo
     """
     # Vectores ba y bc
     ba = (a.x - b.x, a.y - b.y)
     bc = (c.x - b.x, c.y - b.y)
-
+    
     # Producto punto
     dot_product = ba[0]*bc[0] + ba[1]*bc[1]
-
-    #Magnitudes
+    
+    # Magnitudes
     mag_ba = math.sqrt(ba[0]**2 + ba[1]**2)
     mag_bc = math.sqrt(bc[0]**2 + bc[1]**2)
-
-    # Evitar division por cero
+    
+    # Evitar división por cero
     if mag_ba * mag_bc == 0:
         return 0
     
-    #Calcular coseno del angulo
+    # Calcular coseno del ángulo
     cos_angle = dot_product / (mag_ba * mag_bc)
     
     # Clamp para evitar errores de punto flotante
     cos_angle = max(-1, min(1, cos_angle))
-
+    
     # Convertir a grados
     angle = math.acos(cos_angle)
-    return math.degress(angle)
-def esta_doblado_simpe(tip, pip):
+    return math.degrees(angle)
+
+
+def esta_doblado_simple(tip, pip):
     """
-    Heuristica simpe: verifica si un dedo esta doblado comparando cooordenasdas Y
+    Heurística simple: verifica si un dedo está doblado
+    comparando coordenadas Y
     
-    Args: 
+    Args:
         tip: Punto de la punta del dedo
-        pip: Punto de la articulacion PIP
+        pip: Punto de la articulación PIP
     
     Returns:
-        bool: True si esta doblado
+        bool: True si está doblado
     """
     return tip.y > pip.y
+
+
 def esta_doblado_mejorado(tip, pip, mcp):
     """
-    Version mejorada que usa 3 puntos para mayor precision
-
-    Args: 
+    Versión mejorada que usa 3 puntos para mayor precisión
+    
+    Args:
         tip: Punto de la punta del dedo
-        pip: Punto de la articulacion PIP
-        mcp: Punto de la articulacion MCP (nudillo)
+        pip: Punto de la articulación PIP
+        mcp: Punto de la articulación MCP (nudillo)
     
     Returns:
-        bool: True si esta doblado
+        bool: True si está doblado
     """
-    # Verificacion por posicion Y
+    # Verificación por posición Y
     doblado_simple = tip.y > pip.y
-
-    # Verificacion por distancia
+    
+    # Verificación por distancia
     dist_tip_mcp = distancia2(tip, mcp)
     dist_pip_mcp = distancia2(pip, mcp)
-
-    # Si esta doblado, el tip deberia estar mas cerca del mcp
+    
+    # Si está doblado, el tip debería estar más cerca del mcp
     doblado_distancia = dist_tip_mcp < dist_pip_mcp * 0.9
-
+    
     return doblado_simple and doblado_distancia
+
+
 def calcular_bounding_box(landmarks, w, h):
     """
     Calcula el bounding box de los landmarks
-
+    
     Args:
         landmarks: Lista de landmarks
         w: Ancho de la imagen
         h: Alto de la imagen
     
     Returns:
-        tuble: (x_min, y_min, x_max, y_max, cx, cy)
+        tuple: (x_min, y_min, x_max, y_max, cx, cy)
     """
     xs = [lm.x for lm in landmarks]
     ys = [lm.y for lm in landmarks]
-
+    
     x_min = int(min(xs) * w)
     x_max = int(max(xs) * w)
     y_min = int(min(ys) * h)
     y_max = int(max(ys) * h)
-
+    
     # Centro
     cx = int((x_min + x_max) / 2)
     cy = int((y_min + y_max) / 2)
-
+    
     return x_min, y_min, x_max, y_max, cx, cy
+
+
 def promedio_distancias(distancias):
     """
     Calcula el promedio de una lista de distancias
-
+    
     Args:
         distancias: Lista de valores de distancia
     
@@ -139,16 +157,17 @@ def promedio_distancias(distancias):
         return 0
     return sum(distancias) / len(distancias)
 
+
 def variacion_valores(valores):
     """
-    Calcula la variacion (rango) de una lista de valores
-
-    Args: Valores: Lista de valores numericos
-
+    Calcula la variación (rango) de una lista de valores
+    
+    Args:
+        valores: Lista de valores numéricos
+    
     Returns:
-        float: Diferencia entre maximo y minimo
+        float: Diferencia entre máximo y mínimo
     """
     if not valores:
         return 0
     return max(valores) - min(valores)
-

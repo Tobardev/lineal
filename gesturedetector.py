@@ -1,6 +1,6 @@
 """
 gesture_detector.py
-Modulo para deteccion de gestos de vocales en lenguaje de señas
+Módulo para detección de gestos de vocales en lenguaje de señas
 """
 
 import mediapipe as mp
@@ -12,61 +12,61 @@ from geometryutils import (
 
 class GestureDetector:
     """Clase para detectar gestos de vocales ASL"""
-
+    
     def __init__(self):
         self.mp_manos = mp.solutions.hands
         self.gesto_buffer = {}
         self.frames_confirmacion = DETECTION_CONFIG['frames_confirmacion']
-
-        #Cargar Umbrales
+        
+        # Cargar umbrales
         self.th = DISTANCE_THRESHOLDS
         self.ang = ANGLE_THRESHOLDS
         self.tol = GESTURE_TOLERANCES
-
-        def detectar_vocal(self, lm, mano_label =None):
-            """
-            Detecta qué vocal está siendo señalada
+    
+    def detectar_vocal(self, lm, mano_label=None):
+        """
+        Detecta qué vocal está siendo señalada
         
-            Args:
+        Args:
             lm: Landmarks de la mano (lista de 21 puntos)
-                mano_label: Etiqueta de la mano ('Left' o 'Right')
+            mano_label: Etiqueta de la mano ('Left' o 'Right')
         
-            Returns:
-                str: Letra de la vocal ('A', 'E', 'I', 'O', 'U') o None
-            """
-            #Extraer todos los landmarks necesarios
-            landmarks = self._extraer_landmarks(lm)
-
-            #Calcular estado de los dedos
-            estado_dedos = self._calcular_estado_dedos(landmarks)
-
-            #Calcular distancias importantes
-            distancias = self._calcular_distancias(landmarks)
-
-            #Detectar cada vocal en orden de especificidad
-            if self._es_vocal_a(estado_dedos, distancias):
-                return 'A'
-            
-            if self._es_vocal_e(estado_dedos, distancias):
-                return 'E'
+        Returns:
+            str: Letra de la vocal ('A', 'E', 'I', 'O', 'U') o None
+        """
+        # Extraer todos los landmarks necesarios
+        landmarks = self._extraer_landmarks(lm)
         
-            if self._es_vocal_i(estado_dedos, landmarks):
-                return 'I'
+        # Calcular estado de los dedos
+        estado_dedos = self._calcular_estado_dedos(landmarks)
         
-            if self._es_vocal_o(estado_dedos, distancias, landmarks):
-                return 'O'
+        # Calcular distancias importantes
+        distancias = self._calcular_distancias(landmarks)
         
-            if self._es_vocal_u(estado_dedos, distancias, landmarks):
-                return 'U'
-            
-            return None
+        # Detectar cada vocal en orden de especificidad
+        if self._es_vocal_a(estado_dedos, distancias):
+            return 'A'
         
-        def _extraer_landmarks(self,lm):
-             """Extrae y organiza todos los landmarks necesarios"""
+        if self._es_vocal_e(estado_dedos, distancias):
+            return 'E'
+        
+        if self._es_vocal_i(estado_dedos, landmarks):
+            return 'I'
+        
+        if self._es_vocal_o(estado_dedos, distancias, landmarks):
+            return 'O'
+        
+        if self._es_vocal_u(estado_dedos, distancias, landmarks):
+            return 'U'
+        
+        return None
+    
+    def _extraer_landmarks(self, lm):
+        """Extrae y organiza todos los landmarks necesarios"""
         return {
             # Muñeca
             'muñeca': lm[self.mp_manos.HandLandmark.WRIST],
-        
+            
             # Pulgar
             'pulgar_mcp': lm[self.mp_manos.HandLandmark.THUMB_MCP],
             'pulgar_ip': lm[self.mp_manos.HandLandmark.THUMB_IP],
@@ -94,7 +94,7 @@ class GestureDetector:
         }
     
     def _calcular_estado_dedos(self, lm):
-        """calcular si cada dedo esta doblado o ecxtendido"""
+        """Calcula si cada dedo está doblado o extendido"""
         return {
             'indice': {
                 'doblado': esta_doblado_mejorado(lm['indice_tip'], lm['indice_pip'], lm['indice_mcp']),
@@ -112,8 +112,6 @@ class GestureDetector:
                 'doblado': esta_doblado_mejorado(lm['meñique_tip'], lm['meñique_pip'], lm['meñique_mcp']),
                 'angulo': angulo_entre_puntos(lm['meñique_mcp'], lm['meñique_pip'], lm['meñique_tip'])
             }
-
-
         }
     
     def _calcular_distancias(self, lm):
@@ -154,7 +152,7 @@ class GestureDetector:
         meñique_alto = lm['meñique_tip'].y < lm['medio_tip'].y
         
         return dedos_doblados and meñique_extendido and meñique_alto
-
+    
     def _es_vocal_o(self, estado, dist, lm):
         """Detecta vocal O: dedos formando círculo"""
         # Promedio de distancias entre dedos adyacentes
@@ -220,4 +218,4 @@ class GestureDetector:
     def limpiar_buffer(self, i_mano):
         """Limpia el buffer de confirmación de una mano"""
         if i_mano in self.gesto_buffer:
-            self.gesto_buffer[i_mano] = []    
+            self.gesto_buffer[i_mano] = []
