@@ -15,7 +15,7 @@ class AudioManager:
         self.sonidos = {}
         self._inicializar()
 
-         def _inicializar(self):
+    def _inicializar(self):
         """Inicializa pygame mixer y carga los sonidos"""
         try:
             pygame.mixer.init()
@@ -45,7 +45,7 @@ class AudioManager:
             print("✗ No se pudo cargar ningún sonido")
             self.disponible = False
         
-       def reproducir(self, vocal):
+    def reproducir(self, vocal):
         """
         Reproduce el sonido de la vocal especificada
         
