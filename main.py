@@ -3,11 +3,13 @@ main.py
 Programa principal para detección de gestos de vocales en lenguaje de señas
 """
 
-import cv2 
+import cv2
 import mediapipe as mp
-import time 
-
-from audiomanager.py import AudioManager
+import time
+from config import MEDIAPIPE_CONFIG, CAMERA_CONFIG, VISUAL_CONFIG
+from audiomanager import AudioManager
+from gesturedetector import GestureDetector
+from geometryutils import calcular_bounding_box
 
 
 class GestureRecognitionApp:
