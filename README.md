@@ -24,7 +24,7 @@ Cuando se detecta un gesto válido, el programa reproduce un sonido, dibuja los 
 
 ## 📋 Requisitos
 
-- Python 3.8 o superior
+-  version recomendable Python 3.10 compatible con mediapipe
 - Webcam
 - Sistema operativo: Windows, Linux o macOS
 
