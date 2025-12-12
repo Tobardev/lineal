@@ -23,9 +23,9 @@ class GestureDetector:
         self.ang = ANGLE_THRESHOLDS
         self.tol = GESTURE_TOLERANCES
 
-        def detectar_vocal(self, lm, mano_label =None):
+    def detectar_vocal(self, lm, mano_label =None):
             """
-            Detecta qué vocal está siendo señalada
+            Detecta que vocal esta siendo señalada
         
             Args:
             lm: Landmarks de la mano (lista de 21 puntos)
@@ -61,8 +61,8 @@ class GestureDetector:
             
             return None
         
-        def _extraer_landmarks(self,lm):
-             """Extrae y organiza todos los landmarks necesarios"""
+    def _extraer_landmarks(self,lm):
+        """Extrae y organiza todos los landmarks necesarios"""
         return {
             # Muñeca
             'muñeca': lm[self.mp_manos.HandLandmark.WRIST],
@@ -72,7 +72,7 @@ class GestureDetector:
             'pulgar_ip': lm[self.mp_manos.HandLandmark.THUMB_IP],
             'pulgar_tip': lm[self.mp_manos.HandLandmark.THUMB_TIP],
             
-            # Índice
+            # indice
             'indice_mcp': lm[self.mp_manos.HandLandmark.INDEX_FINGER_MCP],
             'indice_pip': lm[self.mp_manos.HandLandmark.INDEX_FINGER_PIP],
             'indice_tip': lm[self.mp_manos.HandLandmark.INDEX_FINGER_TIP],
@@ -156,7 +156,7 @@ class GestureDetector:
         return dedos_doblados and meñique_extendido and meñique_alto
 
     def _es_vocal_o(self, estado, dist, lm):
-        """Detecta vocal O: dedos formando círculo"""
+        """Detecta vocal O: dedos formando circulo"""
         # Promedio de distancias entre dedos adyacentes
         distancias_lista = [dist['pulgar_indice'], dist['indice_medio'], 
                            dist['medio_anular'], dist['anular_meñique']]
@@ -174,7 +174,7 @@ class GestureDetector:
         return todos_cercanos and no_todos_doblados and variacion < self.tol['O']['variacion_altura_max']
     
     def _es_vocal_u(self, estado, dist, lm):
-        """Detecta vocal U: índice y medio extendidos juntos"""
+        """Detecta vocal U: indice y medio extendidos juntos"""
         ind_med_extendidos = (not estado['indice']['doblado'] and 
                              not estado['medio']['doblado'] and
                              estado['indice']['angulo'] > self.ang['extendido'] and
@@ -194,7 +194,7 @@ class GestureDetector:
         Confirma un gesto solo si se detecta de forma estable
         
         Args:
-            i_mano: Índice de la mano
+            i_mano: indice de la mano
             gesto_actual: Gesto detectado actualmente
         
         Returns:
@@ -206,7 +206,7 @@ class GestureDetector:
         # Agregar al buffer
         self.gesto_buffer[i_mano].append(gesto_actual)
         
-        # Mantener solo los últimos N frames
+        # Mantener solo los ultimos N frames
         if len(self.gesto_buffer[i_mano]) > self.frames_confirmacion:
             self.gesto_buffer[i_mano].pop(0)
         
